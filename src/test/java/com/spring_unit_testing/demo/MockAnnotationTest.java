@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -57,5 +58,22 @@ public class MockAnnotationTest {
     assertEquals(100.0, result);
 
     verify(applicationDao, times(1)).addGradeResultsForSingleClass(mathGradeResults);
+  }
+
+  @Test
+  @DisplayName("When and Verify v2")
+  public void whenAndVerifyV2() {
+    var mathGradeResults = studentGrades.getMathGradeResults();
+
+    var applicationDaoMock = Mockito.mock(ApplicationDao.class);
+    when(applicationDaoMock.addGradeResultsForSingleClass(mathGradeResults)).thenReturn(100.0);
+
+    var service = new ApplicationService(applicationDaoMock);
+
+    var studentMathGradeResults = student.getStudentGrades().getMathGradeResults();
+    var result = service.addGradeResultsForSingleClass(studentMathGradeResults);
+    assertEquals(100.0, result);
+
+    verify(applicationDaoMock, times(1)).addGradeResultsForSingleClass(mathGradeResults);
   }
 }
