@@ -84,10 +84,14 @@ public class MockAnnotationTest {
   public void throwAnException() {
     var student = context.getBean("collegeStudent");
 
-    when(applicationDao.checkNull(student)).thenThrow(new RuntimeException());
+    when(applicationDao.checkNull(student))
+        .thenThrow(new RuntimeException())
+        .thenReturn("Does not throw exception on second time");
 
     assertThrows(RuntimeException.class, () -> {
       applicationService.checkNull(student);
     });
+
+    assertEquals("Does not throw exception on second time", applicationService.checkNull(student));
   }
 }
