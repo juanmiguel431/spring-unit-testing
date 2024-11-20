@@ -93,5 +93,7 @@ public class MockAnnotationTest {
     });
 
     assertEquals("Does not throw exception on second time", applicationService.checkNull(student));
+
+    verify(applicationDao, times(2)).checkNull(student);
   }
 }
