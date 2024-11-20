@@ -12,11 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = com.spring_unit_testing.demo.DemoApplication.class)
@@ -31,10 +33,10 @@ public class MockAnnotationTest {
   @Autowired
   private StudentGrades studentGrades;
 
-  @Mock
+  @MockBean
   private ApplicationDao applicationDao;
 
-  @InjectMocks
+  @Autowired
   private ApplicationService applicationService;
 
   @BeforeEach
@@ -75,5 +77,17 @@ public class MockAnnotationTest {
     assertEquals(100.0, result);
 
     verify(applicationDaoMock, times(1)).addGradeResultsForSingleClass(mathGradeResults);
+  }
+
+  @Test
+  @DisplayName("Thrown an Exception")
+  public void throwAnException() {
+    var student = context.getBean("collegeStudent");
+
+    when(applicationDao.checkNull(student)).thenThrow(new RuntimeException());
+
+    assertThrows(RuntimeException.class, () -> {
+      applicationService.checkNull(student);
+    });
   }
 }
