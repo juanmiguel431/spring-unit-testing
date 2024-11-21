@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
@@ -95,5 +96,19 @@ public class MockAnnotationTest {
     assertEquals("Does not throw exception on second time", applicationService.checkNull(student));
 
     verify(applicationDao, times(2)).checkNull(student);
+  }
+
+  @Test
+  public void readingPrivateFields() {
+    var student = context.getBean("collegeStudent", CollegeStudent.class);
+    student.setId(1);
+    student.setFirstname("Juan Miguel");
+
+    var firstName = (String) ReflectionTestUtils.getField(student, "firstname");
+
+    var idAndFirstName = ReflectionTestUtils.<String>invokeMethod(student, "getIdAndFirstName");
+
+    assertEquals("Juan Miguel", firstName);
+    assertEquals("1 - Juan Miguel", idAndFirstName);
   }
 }

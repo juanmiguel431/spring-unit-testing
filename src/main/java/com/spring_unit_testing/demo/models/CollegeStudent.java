@@ -1,6 +1,7 @@
 package com.spring_unit_testing.demo.models;
 
 public class CollegeStudent implements Student {
+    private Integer id;
     private String firstname;
     private String lastname;
     private String emailAddress;
@@ -13,6 +14,18 @@ public class CollegeStudent implements Student {
         this.firstname = firstname;
         this.lastname = lastname;
         this.emailAddress = emailAddress;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    private String getIdAndFirstName() {
+        return getId() + " - " + getFirstname();
     }
 
     public String getFirstname() {
