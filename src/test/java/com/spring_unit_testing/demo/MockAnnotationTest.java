@@ -106,9 +106,9 @@ public class MockAnnotationTest {
 
     var firstName = (String) ReflectionTestUtils.getField(student, "firstname");
 
-    var idAndFirstName = ReflectionTestUtils.<String>invokeMethod(student, "getIdAndFirstName");
+    var idAndFirstName = ReflectionTestUtils.<String>invokeMethod(student, "getIdAndFirstName", "+");
 
     assertEquals("Juan Miguel", firstName);
-    assertEquals("1 - Juan Miguel", idAndFirstName);
+    assertEquals("1 + Juan Miguel", idAndFirstName);
   }
 }

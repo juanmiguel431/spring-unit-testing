@@ -24,8 +24,8 @@ public class CollegeStudent implements Student {
         this.id = id;
     }
 
-    private String getIdAndFirstName() {
-        return getId() + " - " + getFirstname();
+    private String getIdAndFirstName(String separator) {
+        return getId() + " " + separator + " " + getFirstname();
     }
 
     public String getFirstname() {
